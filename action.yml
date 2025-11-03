@@ -1,0 +1,46 @@
+name: "Install Emscripten Package"
+description: "Install Emscripten package"
+author: "Scott Doxey @neogeek"
+branding:
+  color: blue
+  icon: upload-cloud
+
+inputs:
+  EMSDK_VERSION:
+    description: "Emscripten SDK Version"
+    required: false
+    default: "4.0.18"
+
+runs:
+  using: composite
+  steps:
+    - name: Cache Emscripten
+      id: cache-emscripten
+      uses: actions/cache@v4
+      with:
+        path: ./emsdk
+        key: ${{ runner.os }}-emsdk-${{ inputs.EMSDK_VERSION }}
+
+    - name: Install Emscripten
+      if: steps.cache-emscripten.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        git clone https://github.com/emscripten-core/emsdk.git
+        cd ./emsdk
+        ./emsdk install ${{ inputs.EMSDK_VERSION }}
+
+    - name: Activate Emscripten
+      shell: bash
+      run: |
+        cd ./emsdk
+        ./emsdk activate ${{ inputs.EMSDK_VERSION }}
+
+    - name: Setup Emscripten Environment
+      shell: bash
+      run: |
+        cd ./emsdk
+        chmod +x emsdk_env.sh
+        source ./emsdk_env.sh
+        echo "${EMSDK}" >> $GITHUB_PATH
+        echo "${EMSDK}/upstream/emscripten" >> $GITHUB_PATH
+        echo "${EMSDK}/node/${EMSDK_NODE##*/}/bin" >> $GITHUB_PATH
