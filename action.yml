@@ -16,7 +16,7 @@ runs:
   steps:
     - name: Cache Emscripten
       id: cache-emscripten
-      uses: actions/cache@v4
+      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
       with:
         path: ./emsdk
         key: ${{ runner.os }}-emsdk-${{ inputs.EMSDK_VERSION }}
