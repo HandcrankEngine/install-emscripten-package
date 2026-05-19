@@ -10,24 +10,36 @@ inputs:
     description: "Emscripten SDK Version"
     required: false
     default: "4.0.18"
+  CACHE_EMSCRIPTEN:
+    description: "If the action should cache the Emscripten files."
+    required: false
+    default: "true"
 
 runs:
   using: composite
   steps:
-    - name: Cache Emscripten
+    - if: ${{ inputs.EMSDK_VERSION != '' }}
+      name: Restore Emscripten Cache
+      uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
       id: cache-emscripten
-      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
       with:
         path: ./emsdk
         key: ${{ runner.os }}-emsdk-${{ inputs.EMSDK_VERSION }}
 
-    - name: Install Emscripten
-      if: steps.cache-emscripten.outputs.cache-hit != 'true'
+    - if: ${{ inputs.EMSDK_VERSION != '' && steps.cache-emscripten.outputs.cache-hit != 'true' }}
+      name: Install Emscripten
       shell: bash
       run: |
         git clone https://github.com/emscripten-core/emsdk.git
         cd ./emsdk
         ./emsdk install ${{ inputs.EMSDK_VERSION }}
+
+    - if: ${{ inputs.EMSDK_VERSION != '' && inputs.CACHE_EMSCRIPTEN != 'false' && steps.cache-emscripten.outputs.cache-hit != 'true' }}
+      name: Store Emscripten Cache
+      uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      with:
+        path: ./emsdk
+        key: ${{ runner.os }}-emsdk-${{ inputs.EMSDK_VERSION }}
 
     - name: Activate Emscripten
       shell: bash
