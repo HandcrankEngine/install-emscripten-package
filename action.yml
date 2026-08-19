@@ -32,7 +32,9 @@ runs:
       run: |
         git clone https://github.com/emscripten-core/emsdk.git
         cd ./emsdk
-        ./emsdk install ${{ inputs.EMSDK_VERSION }}
+        ./emsdk install ${EMSDK_VERSION}
+      env:
+        EMSDK_VERSION: ${{ inputs.EMSDK_VERSION }}
 
     - if: ${{ inputs.EMSDK_VERSION != '' && inputs.CACHE_EMSCRIPTEN != 'false' && steps.cache-emscripten.outputs.cache-hit != 'true' }}
       name: Store Emscripten Cache
@@ -45,7 +47,9 @@ runs:
       shell: bash
       run: |
         cd ./emsdk
-        ./emsdk activate ${{ inputs.EMSDK_VERSION }}
+        ./emsdk activate ${EMSDK_VERSION}
+      env:
+        EMSDK_VERSION: ${{ inputs.EMSDK_VERSION }}
 
     - name: Setup Emscripten Environment
       shell: bash
