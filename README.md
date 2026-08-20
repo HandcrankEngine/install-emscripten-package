@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: HandcrankEngine/install-emscripten-packages@v0.2.0
         with:
-          EMSDK_VERSION: "5.0.7"
+          EMSDK_VERSION: "6.0.7"
           CACHE_EMSCRIPTEN: "true"
 ```
 
@@ -29,5 +29,5 @@ jobs:
 
 | Name               | Description                                      | Default |
 | :----------------- | :----------------------------------------------- | :-----: |
-| `EMSDK_VERSION`    | Emscripten version                               | `5.0.7` |
+| `EMSDK_VERSION`    | Emscripten version                               | `6.0.7` |
 | `CACHE_EMSCRIPTEN` | If the action should cache the Emscripten files. | `true`  |
