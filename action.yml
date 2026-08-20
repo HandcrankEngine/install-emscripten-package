@@ -36,7 +36,7 @@ runs:
       env:
         EMSDK_VERSION: ${{ inputs.EMSDK_VERSION }}
 
-    - if: ${{ inputs.EMSDK_VERSION != '' && inputs.CACHE_EMSCRIPTEN != 'false' && steps.cache-emscripten.outputs.cache-hit != 'true' }}
+    - if: ${{ inputs.EMSDK_VERSION != '' && (inputs.CACHE_EMSCRIPTEN == 'true' || inputs.CACHE_EMSCRIPTEN == true) && steps.cache-emscripten.outputs.cache-hit != 'true' }}
       name: Store Emscripten Cache
       uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
