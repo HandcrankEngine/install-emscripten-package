@@ -9,7 +9,7 @@ inputs:
   EMSDK_VERSION:
     description: "Emscripten SDK Version"
     required: false
-    default: "5.0.7"
+    default: "6.0.7"
   CACHE_EMSCRIPTEN:
     description: "If the action should cache the Emscripten files."
     required: false
