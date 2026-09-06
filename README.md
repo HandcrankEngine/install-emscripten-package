@@ -9,7 +9,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: HandcrankEngine/install-emscripten-package@v0.3.1
+      - name: Install Emscripten
+        uses: HandcrankEngine/install-emscripten-package@v0.3.1
 ```
 
 ### Specific Version Numbers
@@ -19,7 +20,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: HandcrankEngine/install-emscripten-packages@v0.3.1
+      - name: Install Emscripten
+        uses: HandcrankEngine/install-emscripten-package@v0.3.1
         with:
           EMSDK_VERSION: "6.0.7"
           CACHE_EMSCRIPTEN: "true"
